@@ -32,17 +32,17 @@ def main(argv):
                         type = int,
                         default = 5)
 
-    parser.add_argument('-p', '--pivotResidue',
-                        help = 'Amino acid to put in center of sequence logos. {} is the default.'.format(DEFAULT_PIVOT),
+    parser.add_argument('-p', '--pivot_residue',
+                        help = 'Amino acid to put in center of sequence logos. \'{}\' is the default.'.format(DEFAULT_PIVOT),
                         type = str,
                         default = DEFAULT_PIVOT)
 
     parser.add_argument('-seqCol',
-                        help = 'Sequence column name. {} is the default'.format(DEFAULT_SEQ_COL),
+                        help = 'Sequence column name. \'{}\' is the default'.format(DEFAULT_SEQ_COL),
                         default = DEFAULT_SEQ_COL)
 
     parser.add_argument('-idCol',
-                        help = 'ID column name. {} is the default.'.format(DEFAULT_SEQ_COL),
+                        help = 'ID column name. \'{}\' is the default.'.format(DEFAULT_SEQ_COL),
                         default= DEFAULT_ID_COL)
 
     parser.add_argument('-o', '--ofname',
@@ -54,7 +54,7 @@ def main(argv):
     #check args
     pivotResidue = args.pivotResidue
     if len(pivotResidue) != 1:
-        sys.stderr.write('{} is not a valid pivot residue'.format(pivotResidue))
+        sys.stderr.write('{} is not a valid pivot residue\n'.format(pivotResidue))
         exit()
 
     #read fasta file
@@ -63,7 +63,7 @@ def main(argv):
     try:
         sequences = fastaFile.FastaFile(fastaFileFname)
     except Exception as e:
-        sys.stderr.write('Error reading fasta file: {}'.format(e))
+        sys.stderr.write('Error reading fasta file: {}\n'.format(e))
         exit()
     else: sys.stdout.write(' Done!\n')
 
@@ -75,7 +75,7 @@ def main(argv):
         inputTable.dropna()
         inputTableColnames = inputTable.columns.values.tolist()
     except Exception as e:
-        sys.stderr.write('Error reading input_file: {}'.format(e))
+        sys.stderr.write('Error reading input_file: {}\n'.format(e))
         exit()
     else: sys.stdout.write(' Done!\n')
 
@@ -103,16 +103,17 @@ def main(argv):
     #itterate through each peptide in peptideList
     for i in range(0, len(idList)):
         #get list of pivot residue indecies in current sequence
-        pivotList = [i for i, x in enumerate(seqList[i]) if x == pivotResidue]
+        pivotList = [j for j, x in enumerate(seqList[j]) if x == pivotResidue]
 
         #continue if no pivotResude found
         if len(pivotList) == 0:
             if nl:
                 sys.stdout.write('\n')
                 nl = False
-            print("{} not found in sequence: {}. Skipping peptide...".format(pivotResidue, seqList[i]))
+            sys.stdout.write("{} not found in sequence: {}. Skipping peptide...".format(pivotResidue, seqList[i]))
             continue
-
+		
+        #get protien sequence
         try:
             protSeq = sequences.getSequence(idList[i])
         except RuntimeError as e:
@@ -154,9 +155,10 @@ def main(argv):
     #export dataframe
     ofname = os.path.realpath(args.ofname)
     try:
-        cysteines.to_csv(path_or_buf = args.ofname, sep = '\t', index = False)
+        cysteines.to_csv(path_or_buf = ofname, sep = '\t', index = False)
     except Exception as e:
-        sys.stderr.write('Error writing {}: {}'.format(ofname, e))
+        sys.stderr.write('Error writing {}: {}\n'.format(ofname, e))
+        exit()
     else:
         sys.stdout.write('Data written to {}\n'.format(ofname))
 

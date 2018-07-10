@@ -3,9 +3,10 @@ import re
 
 #simple class to read fasta formated file and lookup sequences by identifier
 class FastaFile:
-    def __init__(self, fname):
+    def __init__(self, fname, reverseRe = '^\>Reverse_'):
         self.fname = fname
         self._sequences = dict()
+        self.reverseRe = reverseRe
         self.read()
 
     def read(self):
@@ -13,6 +14,10 @@ class FastaFile:
         lines = inF.readlines()
 
         for i, line in enumerate(lines):
+            #skip reverse matches
+            if re.match(self.reverseRe, line):
+                continue
+
             if re.match('^\>[a-z]+\|\w+\|', line):
                 elems = line.split('|')
                 assert(len(elems) >= 3)

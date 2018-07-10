@@ -42,7 +42,7 @@ def main(argv):
                         default = DEFAULT_SEQ_COL)
 
     parser.add_argument('-idCol',
-                        help = 'ID column name. \'{}\' is the default.'.format(DEFAULT_SEQ_COL),
+                        help = 'ID column name. \'{}\' is the default.'.format(DEFAULT_ID_COL),
                         default= DEFAULT_ID_COL)
 
     parser.add_argument('-o', '--ofname',
@@ -52,7 +52,7 @@ def main(argv):
     args = parser.parse_args()
 
     #check args
-    pivotResidue = args.pivotResidue
+    pivotResidue = args.pivot_residue
     if len(pivotResidue) != 1:
         sys.stderr.write('{} is not a valid pivot residue\n'.format(pivotResidue))
         exit()

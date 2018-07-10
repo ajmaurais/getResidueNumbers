@@ -103,7 +103,7 @@ def main(argv):
     #itterate through each peptide in peptideList
     for i in range(0, len(idList)):
         #get list of pivot residue indecies in current sequence
-        pivotList = [j for j, x in enumerate(seqList[j]) if x == pivotResidue]
+        pivotList = [j for j, x in enumerate(seqList[i]) if x == pivotResidue]
 
         #continue if no pivotResude found
         if len(pivotList) == 0:

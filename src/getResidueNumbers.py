@@ -55,6 +55,7 @@ def main(argv):
     pivotResidue = args.pivotResidue
     if len(pivotResidue) != 1:
         sys.stderr.write('{} is not a valid pivot residue'.format(pivotResidue))
+        exit()
 
     #read fasta file
     sys.stdout.write('Reading fasta file...')

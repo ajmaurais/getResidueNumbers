@@ -19,7 +19,7 @@ def main(argv):
                             epilog="parseCimage was written by Aaron Maurais.\n"
                                    "Email questions or bugs to aaron.maurais@bc.edu")
 
-    parser.add_argument("--version", action='version', version='%(prog)s ' + PROG_VERSION)
+    parser.add_argument('-v', '--version', action='version', version='%(prog)s ' + PROG_VERSION)
 
     parser.add_argument('fasta_file',
                         help = 'File to look up peptide sequences.')
@@ -37,11 +37,11 @@ def main(argv):
                         type = str,
                         default = DEFAULT_PIVOT)
 
-    parser.add_argument('-seqCol',
+    parser.add_argument('-s', '--seqCol',
                         help = 'Sequence column name. \'{}\' is the default'.format(DEFAULT_SEQ_COL),
                         default = DEFAULT_SEQ_COL)
 
-    parser.add_argument('-idCol',
+    parser.add_argument('-i', '--idCol',
                         help = 'ID column name. \'{}\' is the default.'.format(DEFAULT_ID_COL),
                         default= DEFAULT_ID_COL)
 
@@ -120,16 +120,20 @@ def main(argv):
             sys.stderr.write('\n{}\nSkipping {}...\n'.format(e, idList[i]))
             continue
 
+        #get peptide begin index
         begin = protSeq.find(seqList[i])
-        end = begin + len(seqList[i])
 
         #itterate through each pivot residue in peptideList
         for residue in pivotList:
-            residueNumber = begin + residue
-            fragBegin = residueNumber - args.n
-            if fragBegin < 0:
-                fragBegin = 0
-            span = protSeq[fragBegin:(residueNumber + args.n + 1)]
+            if begin == -1:
+                residueNumber = -1
+                span = 'PEPTIDE_SEQ_NOT_FOUND_IN_PROTEIN'
+            else:
+                residueNumber = begin + residue
+                fragBegin = residueNumber - args.n
+                if fragBegin < 0:
+                    fragBegin = 0
+                span = protSeq[fragBegin:(residueNumber + args.n + 1)]
 
             #append row data to new lists
             newIdList.append(idList[i])

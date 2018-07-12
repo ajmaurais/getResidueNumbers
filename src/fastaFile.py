@@ -25,7 +25,7 @@ class FastaFile:
                 self._sequences[id] = lines[i + 1].strip()
 
     def getSequence(self, id):
-        if id not in self._sequences:
+        if id not in self._sequences.keys():
             raise RuntimeError('{} not found in fasta file'.format(id))
         return self._sequences[id]
 

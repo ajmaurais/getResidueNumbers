@@ -12,7 +12,7 @@ DEFAULT_PIVOT = 'C'
 DEFAULT_ID_COL = 'ipi'
 DEFAULT_SEQ_COL = 'sequence'
 
-def main(argv):
+def main():
 
     #setup args and parse
     parser = argparse.ArgumentParser(prog = 'getResidueNumbers',
@@ -167,5 +167,5 @@ def main(argv):
         sys.stdout.write('Data written to {}\n'.format(ofname))
 
 if __name__ == "__main__":
-    main(sys.argv)
+    main()
 

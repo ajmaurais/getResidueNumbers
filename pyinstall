@@ -1,0 +1,5 @@
+#!/bin/bash
+pyinstaller -p getResidueNumbers --onefile src/getResidueNumbers.py
+cd dist
+tar -czvf locScraper_"$OSTYPE"_x64.tar.gz getResidueNumbers
+cd ..
